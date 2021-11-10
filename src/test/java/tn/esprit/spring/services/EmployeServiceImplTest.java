@@ -24,6 +24,6 @@ public class EmployeServiceImplTest {
     }
     @Test
     public void mettreAjourEmailByEmployeIdTest() {
-        ems.mettreAjourEmailByEmployeId("hamza_safraou@esprit.tn",1);
+        ems.mettreAjourEmailByEmployeId("hamza_safraou@esprit.tn",6);
 	}
 }
