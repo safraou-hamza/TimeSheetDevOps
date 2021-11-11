@@ -2,6 +2,7 @@ package tn.esprit.spring.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,23 +47,30 @@ public class EntrepriseServiceImpl implements IEntrepriseService {
 	}
 	
 	public List<String> getAllDepartementsNamesByEntreprise(int entrepriseId) {
-		Entreprise entrepriseManagedEntity = entrepriseRepoistory.findById(entrepriseId).get();
+		Optional <Entreprise> entrepriseManagedEntity = entrepriseRepoistory.findById(entrepriseId);
 		List<String> depNames = new ArrayList<>();
-		for(Departement dep : entrepriseManagedEntity.getDepartements()){
-			depNames.add(dep.getName());
+		if (entrepriseManagedEntity.isPresent()) {
+			for(Departement dep : entrepriseManagedEntity.get().getDepartements()){
+				depNames.add(dep.getName());
+			}
 		}
-		
 		return depNames;
 	}
 
 	@Transactional
 	public void deleteEntrepriseById(int entrepriseId) {
-		entrepriseRepoistory.delete(entrepriseRepoistory.findById(entrepriseId).get());	
+		Optional <Entreprise> e = entrepriseRepoistory.findById(entrepriseId);
+		if (e.isPresent()) {
+			entrepriseRepoistory.delete(e.get());	
+		}
 	}
 
 	@Transactional
 	public void deleteDepartementById(int depId) {
-		deptRepoistory.delete(deptRepoistory.findById(depId).get());	
+		Optional <Departement> d = deptRepoistory.findById(depId);
+		if (d.isPresent()) {	
+			deptRepoistory.delete(d.get());	
+		}	
 	}
 
 
